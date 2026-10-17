@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PCB Recycling Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#06281d; --panel:#0b3a2a; --panel-edge:rgba(230,244,236,.14);
+    --mint:#7BE0A8; --gold:#F2C94C; --rust:#E0654A;
+    --ink:#E6F4EC; --ink-dim:rgba(230,244,236,.64); --ink-dimmer:rgba(230,244,236,.38);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:#031610; min-height:100vh; display:flex; justify-content:center;
+    align-items:flex-start; padding:48px 20px;
+    font-family:'Space Grotesk',Arial,sans-serif; color:var(--ink);
+  }
+  .card{ width:560px; max-width:100%; background:var(--bg); border:1px solid var(--panel-edge); border-radius:6px; overflow:hidden; }
+  .head{ padding:36px 40px 24px; border-bottom:1px solid var(--panel-edge); }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--mint); display:flex; align-items:center; gap:9px; margin-bottom:16px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); box-shadow:0 0 8px var(--mint); }
+  h1{ font-size:26px; font-weight:700; line-height:1.2; }
+  .progress-row{ display:flex; gap:6px; margin-top:22px; }
+  .seg{ flex:1; height:3px; background:rgba(230,244,236,.15); border-radius:2px; overflow:hidden; }
+  .seg .fill{ height:100%; width:0; background:var(--mint); }
+  .seg.done .fill{ width:100%; }
+  .seg.current .fill{ width:100%; background:var(--gold); }
+
+  .body{ padding:32px 40px 40px; }
+  .qmeta{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-dimmer); margin-bottom:10px; }
+  .qtext{ font-size:19px; font-weight:500; line-height:1.4; margin-bottom:24px; }
+  .opt{
+    display:block; width:100%; text-align:left; padding:14px 16px; background:var(--panel);
+    border:1px solid var(--panel-edge); border-radius:4px; color:var(--ink);
+    font-family:inherit; font-size:15px; margin-bottom:10px; cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .opt:hover:not(:disabled){ border-color:rgba(123,224,168,.55); }
+  .opt:disabled{ cursor:default; }
+  .opt.correct{ border-color:var(--mint); background:rgba(123,224,168,.13); }
+  .opt.incorrect{ border-color:var(--rust); background:rgba(224,101,74,.13); }
+
+  .feedback{ margin-top:18px; font-size:14px; color:var(--ink-dim); line-height:1.55; display:none; }
+  .verdict{ font-weight:700; margin-bottom:4px; }
+  .verdict.ok{ color:var(--mint); } .verdict.no{ color:var(--rust); }
+
+  .next-row{ margin-top:24px; display:flex; justify-content:flex-end; }
+  .next-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--bg); background:var(--mint);
+    border:none; padding:11px 22px; border-radius:4px; cursor:pointer; display:none; font-weight:500;
+  }
+
+  .results{ display:none; padding:44px 40px 40px; text-align:center; }
+  .score{ font-family:'IBM Plex Mono',monospace; font-size:56px; color:var(--gold); font-weight:500; }
+  .outof{ font-size:14px; color:var(--ink-dimmer); margin-top:2px; font-family:'IBM Plex Mono',monospace; }
+  .verdict-line{ font-size:18px; font-weight:500; margin:18px auto 0; max-width:400px; line-height:1.5; }
+  .replay{
+    margin-top:28px; font-family:'IBM Plex Mono',monospace; font-size:13px; background:transparent;
+    color:var(--mint); border:1px solid rgba(123,224,168,.55); padding:10px 20px; border-radius:4px; cursor:pointer;
+  }
+  .credit{ border-top:1px solid var(--panel-edge); padding:16px 40px; background:var(--panel); font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-dimmer); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <div class="eyebrow"><span class="dot"></span>Board check — 10 questions</div>
+    <h1>Test what you know about PCB recycling.</h1>
+    <div class="progress-row" id="progressRow"></div>
+  </div>
+
+  <div class="body" id="quizBody">
+    <div class="qmeta" id="qmeta"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="options"></div>
+    <div class="feedback" id="feedback">
+      <div class="verdict" id="verdict"></div>
+      <div id="explanation"></div>
+    </div>
+    <div class="next-row"><button class="next-btn" id="nextBtn">Next question →</button></div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="score" id="scoreNum">0</div>
+    <div class="outof">out of 10</div>
+    <div class="verdict-line" id="resultVerdict"></div>
+    <button class="replay" id="replayBtn">Try again</button>
+  </div>
+
+  <div class="credit">Prepared by Kavish Khan | Roll No. 24102C0036 | Computer Engineering</div>
+</div>
+
+<script>
+const questions = [
+  { q:"Which metal is plated on a PCB's edge contacts because it resists corrosion?", opts:["Aluminium","Gold","Zinc","Lead"], correct:1, exp:"Edge connector contacts are usually gold-plated, so the connection stays clean and conductive." },
+  { q:"Why are PCBs shredded before most metal separation steps?", opts:["To make them lighter to ship","To free metals from the plastic and fibreglass","To remove the colour","To make them cool down"], correct:1, exp:"Shredding liberates the metal particles from the resin and fibreglass so separation machines can sort them." },
+  { q:"Which technique pulls iron and steel out of shredded PCB material?", opts:["Magnetic separation","Eddy current separation","Electrostatic separation","Density separation"], correct:0, exp:"Magnets attract ferrous metals like iron and steel, leaving the non-ferrous material behind." },
+  { q:"Eddy current separation is mainly used to recover which group?", opts:["Plastics","Glass","Non-ferrous metals such as aluminium and copper","Radioactive metals"], correct:2, exp:"A changing magnetic field throws non-ferrous conductors like aluminium and copper away from the rest of the stream." },
+  { q:"What does bioleaching use to dissolve metals from PCB material?", opts:["Strong mineral acids only","Live microorganisms","Ultraviolet light","Plain water"], correct:1, exp:"Bioleaching relies on metal-tolerant bacteria and fungi that turn bound metals into soluble forms." },
+  { q:"Which microbe produces sulfuric acid that helps leach metals?", opts:["Acidithiobacillus thiooxidans","Escherichia coli","Penicillium rubens","Lactobacillus"], correct:0, exp:"A. thiooxidans oxidises sulfur compounds into sulfuric acid, which dissolves metals." },
+  { q:"What is the role of Aspergillus niger in bioleaching?", opts:["It makes electricity","It secretes organic acids that dissolve metals","It melts solder","It sorts components by colour"], correct:1, exp:"This fungus releases organic acids such as citric acid, which help bring metals into solution." },
+  { q:"Which principle do India's E-Waste (Management) Rules, 2022 build on?", opts:["Extended Producer Responsibility","Pay-per-use","Free import","Voluntary recycling only"], correct:0, exp:"EPR makes producers responsible for collecting and recycling e-waste from the products they put on the market." },
+  { q:"Roughly what share of the world's 2022 e-waste was formally collected and recycled?", opts:["About 75%","About 50%","About 22%","About 5%"], correct:2, exp:"The UN Global E-waste Monitor 2024 puts it at about 22%; most e-waste is not formally recycled." },
+  { q:"Why is open burning or acid bathing of PCBs dangerous?", opts:["It makes boards too shiny","It releases toxic fumes and contaminates air, soil and water","It uses too little energy","It only affects the plastic"], correct:1, exp:"Informal burning and acid baths release toxic fumes and pollutants, harming workers and the environment." }
+];
+
+let current = 0, score = 0, answered = false;
+const progressRow = document.getElementById('progressRow');
+questions.forEach(() => {
+  const seg = document.createElement('div');
+  seg.className = 'seg'; seg.innerHTML = '<div class="fill"></div>';
+  progressRow.appendChild(seg);
+});
+const segs = document.querySelectorAll('.seg');
+
+function renderQuestion(){
+  answered = false;
+  const item = questions[current];
+  document.getElementById('qmeta').textContent = `Question ${current+1} of ${questions.length}`;
+  document.getElementById('qtext').textContent = item.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  item.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt'; btn.textContent = opt;
+    btn.onclick = () => selectOption(i);
+    optsDiv.appendChild(btn);
+  });
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  segs.forEach((s,i) => {
+    s.classList.remove('current','done');
+    if(i < current) s.classList.add('done');
+    if(i === current) s.classList.add('current');
+  });
+}
+
+function selectOption(i){
+  if(answered) return;
+  answered = true;
+  const item = questions[current];
+  document.querySelectorAll('.opt').forEach((b, idx) => {
+    b.disabled = true;
+    if(idx === item.correct) b.classList.add('correct');
+    else if(idx === i) b.classList.add('incorrect');
+  });
+  const verdict = document.getElementById('verdict');
+  if(i === item.correct){ score++; verdict.textContent = 'Correct.'; verdict.className = 'verdict ok'; }
+  else { verdict.textContent = 'Not quite.'; verdict.className = 'verdict no'; }
+  document.getElementById('explanation').textContent = item.exp;
+  document.getElementById('feedback').style.display = 'block';
+  document.getElementById('nextBtn').style.display = 'inline-block';
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if(current < questions.length) renderQuestion(); else showResults();
+};
+
+function showResults(){
+  document.getElementById('quizBody').style.display = 'none';
+  segs.forEach(s => { s.classList.remove('current'); s.classList.add('done'); });
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('scoreNum').textContent = score;
+  let line;
+  if(score >= 9) line = "Board cleared. You know how PCBs get recycled safely.";
+  else if(score >= 6) line = "Good scan. A few gaps, but you have the basics of PCB recycling.";
+  else line = "Worth another pass. There is a lot packed into one circuit board.";
+  document.getElementById('resultVerdict').textContent = line;
+}
+
+document.getElementById('replayBtn').onclick = () => {
+  current = 0; score = 0;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+  renderQuestion();
+};
+
+renderQuestion();
+</script>
+</body>
+</html>

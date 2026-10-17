@@ -1,0 +1,57 @@
+{
+  "name": "reclaim-magnum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test tests/e2e.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "private": "true",
+  "dependencies": {
+    "archiver": "^8.0.0",
+    "canvas-confetti": "^1.9.4",
+    "clsx": "^2.1.1",
+    "jszip": "^3.10.2",
+    "lucide-react": "^1.55.0",
+    "mammoth": "^1.13.0",
+    "next": "^15.5.27",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "recharts": "^3.10.1",
+    "tailwind-merge": "^3.7.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/archiver": "^8.0.0",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "autoprefixer": "^10.6.1",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.0",
+    "jsdom": "^30.1.2",
+    "playwright": "^1.64.0",
+    "postcss": "^8.5.29",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.4"
+  }
+}

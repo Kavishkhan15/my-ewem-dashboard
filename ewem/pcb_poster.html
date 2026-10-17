@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PCB Recycling Poster — Board Recovery Scan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#06281d;
+    --panel:#0b3a2a;
+    --panel-edge:rgba(230,244,236,0.14);
+    --mint:#7BE0A8;
+    --gold:#F2C94C;
+    --copper:#E08F4F;
+    --ink:#E6F4EC;
+    --ink-dim:rgba(230,244,236,0.64);
+    --ink-dimmer:rgba(230,244,236,0.38);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:#031610;
+    display:flex; justify-content:center; padding:40px 20px;
+    font-family:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+  }
+  .poster{
+    width:900px; min-height:1240px; background:var(--bg); color:var(--ink);
+    position:relative; overflow:hidden; border:1px solid var(--panel-edge);
+    display:flex; flex-direction:column;
+  }
+  .bracket{ position:absolute; width:26px; height:26px; border-color:var(--mint); opacity:.7; }
+  .bracket.tl{ top:24px; left:24px; border-top:2px solid; border-left:2px solid; }
+  .bracket.tr{ top:24px; right:24px; border-top:2px solid; border-right:2px solid; }
+  .bracket.bl{ bottom:24px; left:24px; border-bottom:2px solid; border-left:2px solid; }
+  .bracket.br{ bottom:24px; right:24px; border-bottom:2px solid; border-right:2px solid; }
+
+  .top{ padding:64px 64px 0 64px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--mint);
+    margin-bottom:20px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); box-shadow:0 0 8px var(--mint); }
+  h1{ font-weight:700; font-size:54px; line-height:1.08; letter-spacing:-.5px; max-width:700px; }
+  h1 em{ font-style:normal; color:var(--gold); }
+  .sub{ margin-top:22px; font-size:17px; max-width:560px; color:var(--ink-dim); line-height:1.6; }
+
+  .diagram-section{ margin-top:30px; padding:0 40px; }
+  .diagram-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-dimmer); text-align:center; margin-bottom:2px; }
+  .callout .mat{ font-weight:700; font-size:16px; fill:var(--gold); font-family:'Space Grotesk',sans-serif; }
+  .callout .comp{ font-weight:400; font-size:12.5px; fill:var(--ink-dim); font-family:'Space Grotesk',sans-serif; }
+  .leader{ stroke:rgba(123,224,168,.6); stroke-width:1.4; stroke-dasharray:2 4; fill:none; }
+  .node{ fill:var(--mint); }
+
+  .flow{
+    margin-top:26px; padding:26px 64px; border-top:1px solid var(--panel-edge);
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-dim);
+  }
+  .flow .step{ text-align:center; flex:1; }
+  .flow .step b{ display:block; color:var(--mint); font-size:11px; margin-bottom:4px; font-weight:500; }
+  .flow .step.bio b{ color:var(--copper); }
+  .flow .arrow{ color:var(--ink-dimmer); }
+
+  .readouts{
+    padding:34px 64px; display:flex; justify-content:space-between; gap:24px;
+    border-top:1px solid var(--panel-edge); border-bottom:1px solid var(--panel-edge);
+  }
+  .readout{ flex:1; }
+  .readout .num{ font-family:'IBM Plex Mono',monospace; font-size:44px; font-weight:500; color:var(--mint); line-height:1; }
+  .readout .desc{ margin-top:10px; font-size:14px; color:var(--ink-dim); line-height:1.5; max-width:320px; }
+
+  .bottom-band{
+    margin-top:auto; background:var(--panel); padding:38px 64px;
+    display:flex; justify-content:space-between; align-items:center; gap:30px;
+  }
+  .cta-title{ font-size:23px; font-weight:700; }
+  .cta-detail{ font-size:14px; color:var(--ink-dim); margin-top:8px; max-width:420px; line-height:1.5; }
+  .badge{
+    width:84px; height:84px; border-radius:50%; flex-shrink:0;
+    border:2px solid var(--mint); display:flex; align-items:center; justify-content:center;
+    font-size:40px; color:var(--mint);
+  }
+  .credit{
+    padding:12px 64px 28px; background:var(--panel);
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-dimmer);
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="bracket tl"></div><div class="bracket tr"></div>
+  <div class="bracket bl"></div><div class="bracket br"></div>
+
+  <div class="top">
+    <div class="eyebrow"><span class="dot"></span>Board recovery scan</div>
+    <h1>That green board isn't junk. It's <em>a tiny ore deposit.</em></h1>
+    <p class="sub">Every printed circuit board (PCB) in a dead router, TV or phone carries metals worth recovering. Here's what's on one, and how it gets out safely.</p>
+  </div>
+
+  <div class="diagram-section">
+    <div class="diagram-label">// scan readout — device: printed circuit board</div>
+    <svg viewBox="0 0 800 540" xmlns="http://www.w3.org/2000/svg">
+      <!-- board -->
+      <rect x="250" y="90" width="300" height="340" rx="10" fill="#0f5a3c" stroke="#7BE0A8" stroke-width="2" opacity=".95"/>
+      <!-- copper traces -->
+      <g stroke="#E08F4F" stroke-width="2" fill="none" opacity=".85">
+        <path d="M280,130 H360 V200 H420"/>
+        <path d="M280,160 H330 V260 H400"/>
+        <path d="M520,130 H470 V190"/>
+        <path d="M520,250 H470 V330 H400"/>
+        <path d="M280,300 H340 V380 H430"/>
+        <path d="M520,380 H480 V340"/>
+      </g>
+      <!-- chip -->
+      <rect x="380" y="195" width="90" height="70" fill="#0a1f17" stroke="#E6F4EC" stroke-width="1.5"/>
+      <g stroke="#C9D3CE" stroke-width="2">
+        <path d="M392,195 v-10 M410,195 v-10 M428,195 v-10 M446,195 v-10 M464,195 v-10"/>
+        <path d="M392,265 v10 M410,265 v10 M428,265 v10 M446,265 v10 M464,265 v10"/>
+      </g>
+      <!-- capacitors -->
+      <rect x="290" y="210" width="22" height="34" rx="3" fill="#B8864B"/>
+      <rect x="500" y="290" width="22" height="34" rx="3" fill="#B8864B"/>
+      <!-- solder dots -->
+      <g fill="#C9D3CE">
+        <circle cx="280" cy="130" r="4"/><circle cx="280" cy="160" r="4"/>
+        <circle cx="520" cy="130" r="4"/><circle cx="520" cy="250" r="4"/>
+        <circle cx="280" cy="300" r="4"/><circle cx="520" cy="380" r="4"/>
+      </g>
+      <!-- gold edge fingers -->
+      <g fill="#F2C94C">
+        <rect x="300" y="414" width="12" height="26"/><rect x="320" y="414" width="12" height="26"/>
+        <rect x="340" y="414" width="12" height="26"/><rect x="360" y="414" width="12" height="26"/>
+        <rect x="380" y="414" width="12" height="26"/><rect x="400" y="414" width="12" height="26"/>
+        <rect x="420" y="414" width="12" height="26"/><rect x="440" y="414" width="12" height="26"/>
+        <rect x="460" y="414" width="12" height="26"/><rect x="480" y="414" width="12" height="26"/>
+      </g>
+
+      <!-- attach nodes -->
+      <circle class="node" cx="400" cy="440" r="3.5"/>
+      <circle class="node" cx="301" cy="227" r="3.5"/>
+      <circle class="node" cx="425" cy="195" r="3.5"/>
+      <circle class="node" cx="520" cy="130" r="3.5"/>
+      <circle class="node" cx="480" cy="360" r="3.5"/>
+
+      <!-- leaders -->
+      <path class="leader" d="M400,440 L400,470 L190,470 L190,488"/>
+      <path class="leader" d="M301,227 L200,227 L200,242"/>
+      <path class="leader" d="M425,195 L425,70 L190,70 L190,86"/>
+      <path class="leader" d="M520,130 L640,130 L640,144"/>
+      <path class="leader" d="M480,360 L640,360 L640,374"/>
+
+      <g class="callout">
+        <g transform="translate(120,505)"><text class="mat" y="0">Gold</text><text class="comp" y="20">Edge connector contacts</text></g>
+        <g transform="translate(120,102)"><text class="mat" y="0">Silicon &amp; palladium</text><text class="comp" y="20">Processor package</text></g>
+        <g transform="translate(120,258)"><text class="mat" y="0">Tantalum</text><text class="comp" y="20">Capacitors</text></g>
+        <g transform="translate(580,160)"><text class="mat" y="0">Tin &amp; silver</text><text class="comp" y="20">Solder joints</text></g>
+        <g transform="translate(580,392)"><text class="mat" y="0">Copper</text><text class="comp" y="20">Traces &amp; layers</text></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="flow">
+    <div class="step"><b>01</b>Collect</div><div class="arrow">›</div>
+    <div class="step"><b>02</b>Dismantle</div><div class="arrow">›</div>
+    <div class="step"><b>03</b>Shred &amp; sort</div><div class="arrow">›</div>
+    <div class="step bio"><b>04 · BIO</b>Bioleach</div><div class="arrow">›</div>
+    <div class="step"><b>05</b>Refine</div><div class="arrow">›</div>
+    <div class="step"><b>06</b>Reuse</div>
+  </div>
+
+  <div class="readouts">
+    <div class="readout">
+      <div class="num">62 Mt</div>
+      <div class="desc">of e-waste was generated worldwide in 2022 (UN Global E-waste Monitor). Only about 22% was formally collected and recycled.</div>
+    </div>
+    <div class="readout">
+      <div class="num">EPR</div>
+      <div class="desc">India's E-Waste (Management) Rules, 2022 make producers responsible for collecting and recycling what they sell.</div>
+    </div>
+  </div>
+
+  <div class="bottom-band">
+    <div>
+      <div class="cta-title">Give boards to an authorised recycler, never the burn pit.</div>
+      <div class="cta-detail">Open burning and acid baths free the metals but poison air, soil and water. Authorised facilities recover them safely.</div>
+    </div>
+    <div class="badge">&#9851;</div>
+  </div>
+  <div class="credit">Prepared by Kavish Khan &nbsp;|&nbsp; Roll No. 24102C0036 &nbsp;|&nbsp; Computer Engineering</div>
+</div>
+</body>
+</html>

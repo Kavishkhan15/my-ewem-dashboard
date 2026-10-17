@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-Waste Diagnostic Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#0A1928; --panel:#0F2438; --panel-edge:rgba(232,238,242,0.12);
+    --cyan:#4FD8C4; --amber:#FFB454; --rust:#E0654A;
+    --ink:#E8EEF2; --ink-dim:rgba(232,238,242,0.62); --ink-dimmer:rgba(232,238,242,0.36);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:#04101c; min-height:100vh;
+    display:flex; justify-content:center; align-items:flex-start; padding:48px 20px;
+    font-family:'Space Grotesk', Arial, sans-serif; color:var(--ink);
+  }
+  .card{
+    width:560px; background:var(--bg); border:1px solid var(--panel-edge);
+    border-radius:6px; overflow:hidden; position:relative;
+  }
+  .head{ padding:36px 40px 24px 40px; border-bottom:1px solid var(--panel-edge); }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--cyan);
+    display:flex; align-items:center; gap:9px; margin-bottom:16px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); }
+  h1{ font-size:26px; font-weight:700; line-height:1.2; }
+  .progress-row{ display:flex; gap:6px; margin-top:22px; }
+  .seg{ flex:1; height:3px; background:rgba(232,238,242,0.15); border-radius:2px; overflow:hidden; }
+  .seg .fill{ height:100%; width:0%; background:var(--cyan); transition:width .3s; }
+  .seg.done .fill{ width:100%; }
+  .seg.current .fill{ width:100%; background:var(--amber); }
+
+  .body{ padding:32px 40px 40px 40px; }
+  .qmeta{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-dimmer); margin-bottom:10px; }
+  .qtext{ font-size:19px; font-weight:500; line-height:1.4; margin-bottom:24px; }
+
+  .opt{
+    display:block; width:100%; text-align:left; padding:14px 16px;
+    background:var(--panel); border:1px solid var(--panel-edge); border-radius:4px;
+    color:var(--ink); font-family:inherit; font-size:15px; margin-bottom:10px; cursor:pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .opt:hover:not(:disabled){ border-color: rgba(79,216,196,0.5); }
+  .opt:disabled{ cursor:default; }
+  .opt.correct{ border-color:var(--cyan); background:rgba(79,216,196,0.12); }
+  .opt.incorrect{ border-color:var(--rust); background:rgba(224,101,74,0.12); }
+
+  .feedback{ margin-top:18px; font-size:14px; color:var(--ink-dim); line-height:1.55; display:none; }
+  .feedback .verdict{ font-weight:700; margin-bottom:4px; }
+  .feedback .verdict.ok{ color:var(--cyan); }
+  .feedback .verdict.no{ color:var(--rust); }
+
+  .next-row{ margin-top:24px; display:flex; justify-content:flex-end; }
+  .next-btn{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--bg);
+    background:var(--cyan); border:none; padding:11px 22px; border-radius:4px;
+    cursor:pointer; display:none; font-weight:500;
+  }
+
+  /* results */
+  .results{ display:none; padding:44px 40px 40px 40px; text-align:center; }
+  .results .score{ font-family:'IBM Plex Mono', monospace; font-size:56px; color:var(--amber); font-weight:500; }
+  .results .outof{ font-size:14px; color:var(--ink-dimmer); margin-top:2px; font-family:'IBM Plex Mono', monospace; }
+  .results .verdict-line{ font-size:18px; font-weight:500; margin-top:18px; max-width:400px; margin-left:auto; margin-right:auto; line-height:1.5; }
+  .results .replay{
+    margin-top:28px; font-family:'IBM Plex Mono', monospace; font-size:13px;
+    background:transparent; color:var(--cyan); border:1px solid rgba(79,216,196,0.5);
+    padding:10px 20px; border-radius:4px; cursor:pointer;
+  }
+
+  .prizes{
+    border-top:1px solid var(--panel-edge); padding:20px 40px; background:var(--panel);
+    font-size:12.5px; color:var(--ink-dimmer); line-height:1.6;
+  }
+  .prizes b{ color:var(--ink-dim); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <div class="eyebrow"><span class="dot"></span>Diagnostic — 10 checks</div>
+    <h1>Run the e-waste diagnostic.</h1>
+    <div class="progress-row" id="progressRow"></div>
+  </div>
+
+  <div class="body" id="quizBody">
+    <div class="qmeta" id="qmeta"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="options"></div>
+    <div class="feedback" id="feedback">
+      <div class="verdict" id="verdict"></div>
+      <div id="explanation"></div>
+    </div>
+    <div class="next-row"><button class="next-btn" id="nextBtn">Next check →</button></div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="score" id="scoreNum">0</div>
+    <div class="outof">out of 10</div>
+    <div class="verdict-line" id="resultVerdict"></div>
+    <button class="replay" id="replayBtn">Run it again</button>
+  </div>
+
+  <div class="prizes">
+    <b>Running this live:</b> top 3 scorers (or first correct answer per round in a live show-of-hands / Kahoot import) win — 1st: recycled-material notebook + pen, 2nd: sapling, 3rd: campaign sticker pack. Announce winners same day and tag them in the campaign's post.
+  </div>
+</div>
+
+<script>
+const questions = [
+  { q:"Roughly how much of the world's e-waste is properly recycled each year?", opts:["75%","50%","17%","5%"], correct:2, exp:"Only around 17% of global e-waste is formally collected and recycled — most of the rest is landfilled, burned, or handled informally." },
+  { q:"Which of these is NOT commonly found inside a smartphone?", opts:["Gold","Copper","Uranium","Lithium"], correct:2, exp:"Uranium isn't a component. Phones do contain gold (contacts), copper (wiring), and lithium (battery)." },
+  { q:"What happens to lead and mercury from e-waste dumped in landfills?", opts:["They evaporate harmlessly","They leach into soil and groundwater","They turn into plastic","Nothing, they're inert"], correct:1, exp:"Heavy metals like lead and mercury leach into soil and water over time, which is why e-waste needs separate handling." },
+  { q:"What's the smart move before recycling an old phone?", opts:["Nothing, just hand it over","Wipe your personal data","Remove the battery and bin it separately in normal trash","Break the screen first"], correct:1, exp:"Wipe your data first. Batteries should go to a battery/e-waste point too, not the trash." },
+  { q:"How many different elements can a single smartphone contain?", opts:["Around 10","Around 30","60+","Over 200"], correct:2, exp:"A modern smartphone can contain 60+ elements — more than a third of the periodic table." },
+  { q:"What is \"urban mining\"?", opts:["Digging for coal in cities","Recovering valuable metals from discarded electronics","A video game","A type of e-waste landfill"], correct:1, exp:"Urban mining means recovering metals like gold, copper, and palladium from old electronics instead of digging them from the ground." },
+  { q:"Which country currently generates the most e-waste in absolute terms?", opts:["India","China","Japan","Germany"], correct:1, exp:"China generates the largest total volume of e-waste, driven by its scale of electronics production and consumption." },
+  { q:"What's the safest way to dispose of an old laptop battery?", opts:["Throw it in regular household trash","Burn it","Drop it at a designated e-waste/battery collection point","Bury it in the garden"], correct:2, exp:"Batteries need a dedicated collection point — they can leak, corrode, or catch fire if dumped or burned." },
+  { q:"Which of these counts as e-waste?", opts:["Only phones and laptops","Only large appliances like fridges","Any device with a plug, battery, or circuit","Only broken electronics"], correct:2, exp:"E-waste covers chargers, cables, remotes, and anything else with a plug, battery, or circuit — not just phones and laptops." },
+  { q:"Why is e-waste one of the fastest-growing waste streams globally?", opts:["Devices are getting cheaper and replaced more often","People are recycling less paper","Population is decreasing","Electronics last longer than ever"], correct:0, exp:"Cheaper devices and shorter upgrade cycles mean more electronics get discarded, faster than recycling systems can absorb." }
+];
+
+let current = 0, score = 0, answered = false;
+const progressRow = document.getElementById('progressRow');
+questions.forEach(() => {
+  const seg = document.createElement('div'); seg.className = 'seg'; seg.innerHTML = '<div class="fill"></div>'; progressRow.appendChild(seg);
+});
+const segs = document.querySelectorAll('.seg');
+
+function renderQuestion(){
+  answered = false;
+  const item = questions[current];
+  document.getElementById('qmeta').textContent = `Check ${current+1} of ${questions.length}`;
+  document.getElementById('qtext').textContent = item.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  item.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt'; btn.textContent = opt;
+    btn.onclick = () => selectOption(i);
+    optsDiv.appendChild(btn);
+  });
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  segs.forEach((s,i) => { s.classList.remove('current','done'); if(i<current) s.classList.add('done'); if(i===current) s.classList.add('current'); });
+}
+
+function selectOption(i){
+  if(answered) return;
+  answered = true;
+  const item = questions[current];
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach((b,idx) => {
+    b.disabled = true;
+    if(idx === item.correct) b.classList.add('correct');
+    else if(idx === i) b.classList.add('incorrect');
+  });
+  const fb = document.getElementById('feedback');
+  const verdict = document.getElementById('verdict');
+  if(i === item.correct){
+    score++;
+    verdict.textContent = 'Correct.'; verdict.className = 'verdict ok';
+  } else {
+    verdict.textContent = 'Not quite.'; verdict.className = 'verdict no';
+  }
+  document.getElementById('explanation').textContent = item.exp;
+  fb.style.display = 'block';
+  document.getElementById('nextBtn').style.display = 'inline-block';
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if(current < questions.length){ renderQuestion(); }
+  else { showResults(); }
+};
+
+function showResults(){
+  document.getElementById('quizBody').style.display = 'none';
+  segs.forEach(s => { s.classList.remove('current'); s.classList.add('done'); });
+  const results = document.getElementById('results');
+  results.style.display = 'block';
+  document.getElementById('scoreNum').textContent = score;
+  let line;
+  if(score >= 9) line = "Diagnostic clean — you already know what belongs in the drive, not the bin.";
+  else if(score >= 6) line = "Solid readout. A few gaps, but you've got the basics of what's inside your devices.";
+  else line = "Worth a rerun — there's more hiding in your old electronics than you'd think.";
+  document.getElementById('resultVerdict').textContent = line;
+}
+
+document.getElementById('replayBtn').onclick = () => {
+  current = 0; score = 0;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+  renderQuestion();
+};
+
+renderQuestion();
+</script>
+</body>
+</html>

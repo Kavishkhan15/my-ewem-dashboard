@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Waste EPR Register &amp; Target Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F1E8;
+    --ink:#16221B;
+    --green:#28553F;
+    --green-deep:#16342A;
+    --sage:#7C9E8C;
+    --gold:#B9862F;
+    --danger:#9C3B2A;
+    --line:#CBCABA;
+    --card:#FBFAF5;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    padding-bottom:60px;
+  }
+  .masthead{
+    background:var(--green-deep);
+    color:var(--paper);
+    padding:38px 24px 30px;
+    border-bottom:6px solid var(--gold);
+  }
+  .masthead-inner{
+    max-width:980px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.02em;
+    color:var(--sage);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;
+    font-size:clamp(28px,4vw,40px);
+    margin:0 0 10px;
+    max-width:680px;
+  }
+  .sub{
+    font-size:15.5px;
+    color:#CFE0D4;
+    max-width:600px;
+    margin:0 0 22px;
+  }
+  .who{
+    display:flex;
+    gap:28px;
+    flex-wrap:wrap;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--paper);
+    border-top:1px solid rgba(255,255,255,0.18);
+    padding-top:16px;
+  }
+  .who span{color:var(--sage); margin-right:6px;}
+
+  main{
+    max-width:980px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  section{margin-top:46px;}
+  h2{
+    font-family:'Source Serif 4',serif;
+    font-size:22px;
+    font-weight:600;
+    margin:0 0 4px;
+    color:var(--green-deep);
+  }
+  .section-note{
+    font-size:13.5px;
+    color:#5B6660;
+    margin:0 0 18px;
+    max-width:620px;
+  }
+
+  /* Controls row */
+  .controls{
+    display:flex;
+    align-items:flex-end;
+    gap:20px;
+    flex-wrap:wrap;
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:18px 20px;
+    border-radius:2px;
+  }
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--green);
+    text-transform:none;
+  }
+  select, input[type=text], input[type=number]{
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    padding:9px 10px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:#fff;
+    color:var(--ink);
+    min-width:160px;
+  }
+  select:focus, input:focus{
+    outline:2px solid var(--gold);
+    outline-offset:1px;
+  }
+  .fy-target-hint{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--gold);
+    padding:9px 0;
+  }
+
+  /* Add company form */
+  form.add-company{
+    display:grid;
+    grid-template-columns:1.6fr 1fr 1fr 1fr auto;
+    gap:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:18px 20px;
+    border-radius:2px;
+    align-items:end;
+  }
+  form.add-company .field{min-width:0;}
+  form.add-company input, form.add-company select{width:100%; min-width:0;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    background:var(--green);
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:2px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn:hover{background:var(--green-deep);}
+  .btn.ghost{
+    background:transparent;
+    color:var(--danger);
+    border:1px solid var(--danger);
+    padding:6px 10px;
+    font-size:12px;
+  }
+  .btn.ghost:hover{background:var(--danger); color:#fff;}
+
+  /* Register table */
+  .register{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:22px;
+    font-size:14px;
+    background:var(--card);
+  }
+  .register th, .register td{
+    border-bottom:1px solid var(--line);
+    padding:12px 10px;
+    text-align:left;
+    vertical-align:top;
+  }
+  .register th{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--green);
+    font-weight:500;
+    letter-spacing:0.01em;
+    border-bottom:2px solid var(--green);
+  }
+  .register td.num, .register th.num{
+    text-align:right;
+    font-family:'IBM Plex Mono',monospace;
+    font-variant-numeric:tabular-nums;
+  }
+  .register tr:last-child td{border-bottom:1px solid var(--green);}
+  .company-name{font-weight:600;}
+  .entity-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--green);
+    border:1px solid var(--sage);
+    padding:2px 6px;
+    border-radius:2px;
+    display:inline-block;
+    margin-top:4px;
+  }
+  .status{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:4px 8px;
+    border-radius:2px;
+    display:inline-block;
+  }
+  .status.ok{background:#DCEBE1; color:var(--green-deep);}
+  .status.bad{background:#F3DDD6; color:var(--danger);}
+  .actual-input{
+    width:90px;
+    padding:6px 8px;
+    font-size:13px;
+  }
+  .remove-cell{text-align:center;}
+
+  /* Explanation */
+  .explain{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    padding:20px 22px;
+    font-size:14.5px;
+    color:#243128;
+  }
+  .explain p{margin:0 0 10px;}
+  .explain p:last-child{margin-bottom:0;}
+  .explain b{color:var(--green-deep);}
+
+  footer{
+    max-width:980px;
+    margin:50px auto 0;
+    padding:20px 24px 0;
+    border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:#6D766F;
+  }
+
+  @media (max-width:760px){
+    form.add-company{grid-template-columns:1fr 1fr;}
+    .register{font-size:12.5px;}
+    .register th, .register td{padding:9px 6px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow">E-WASTE (MANAGEMENT) RULES, 2022 — MINI TASK</p>
+    <h1>EPR Registration &amp; Recycling Target Calculator</h1>
+    <p class="sub">Register companies as Manufacturer, Producer, Recycler or Refurbisher, then compute each one's EPR recycling target, registration fee, and compliance status for a chosen financial year.</p>
+    <div class="who">
+      <div><span>Name</span>Kassim Ghanchi</div>
+      <div><span>Roll No.</span>24102C0015</div>
+      <div><span>Course</span>Computer Engineering — Third Year</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section>
+    <h2>Financial year</h2>
+    <p class="section-note">The recycling target percentage step-changes by financial year under Schedule-III/IV of the Rules.</p>
+    <div class="controls">
+      <div class="field">
+        <label for="fySelect">Financial year</label>
+        <select id="fySelect">
+          <option value="2023-24">2023–24</option>
+          <option value="2024-25">2024–25</option>
+          <option value="2025-26">2025–26</option>
+          <option value="2026-27">2026–27</option>
+          <option value="2027-28" selected>2027–28</option>
+          <option value="2028-29">2028–29 onward</option>
+        </select>
+      </div>
+      <div class="fy-target-hint" id="fyHint"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Register a company</h2>
+    <p class="section-note">Five sample companies are pre-loaded from the reference list. Add more, or edit "Actual recycled" in the table below to test compliance.</p>
+    <form class="add-company" id="addForm">
+      <div class="field">
+        <label for="cName">Company name</label>
+        <input type="text" id="cName" placeholder="e.g. Avalon Technologies" required>
+      </div>
+      <div class="field">
+        <label for="cType">Entity type</label>
+        <select id="cType">
+          <option>Manufacturer</option>
+          <option selected>Producer</option>
+          <option>Recycler</option>
+          <option>Refurbisher</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="cGenerated">Generated (MT)</label>
+        <input type="number" id="cGenerated" min="0" step="0.1" placeholder="e.g. 240" required>
+      </div>
+      <div class="field">
+        <label for="cActual">Actual recycled (MT)</label>
+        <input type="number" id="cActual" min="0" step="0.1" placeholder="e.g. 150" required>
+      </div>
+      <button type="submit" class="btn">Add to register</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Compliance register</h2>
+    <p class="section-note">Target (MT) = Annual E-Waste Generated × Target %. Fee is looked up from the target tonnage. Status compares actual recycled against the target.</p>
+    <table class="register">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th class="num">Generated (MT)</th>
+          <th class="num">Target %</th>
+          <th class="num">Target (MT)</th>
+          <th class="num">Reg. fee (₹)</th>
+          <th class="num">Actual recycled (MT)</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="registerBody"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Basis of calculation</h2>
+    <div class="explain">
+      <p><b>EPR target (Step 2)</b> is drawn from the phase-wise obligation schedule in the CPCB FAQ: 60% of annual generation for FY 2023–24 and 2024–25, 70% for FY 2025–26 and 2026–27, and 80% from FY 2027–28 onward — this reflects Schedule-III/IV of the E-Waste (Management) Rules, 2022.</p>
+      <p><b>Registration fee (Step 3)</b> is looked up from Annexure-I of the FAQ document, which bands the processing fee by the producer's annual e-waste recycling target: below 50 MT (₹2,500), 50–&lt;100 MT (₹7,500), 100–&lt;1000 MT (₹1,50,000), 1000–&lt;5000 MT (₹10,00,000), and above 5000 MT (₹15,00,000).</p>
+      <p><b>Compliance status (Step 4)</b> is a direct comparison required under Rule 4's EPR obligation: a company is "Compliant" only if its actual recycled quantity for the year meets or exceeds the calculated target; otherwise it is flagged "Non-Compliant."</p>
+      <p>Entity type (Manufacturer / Producer / Recycler / Refurbisher) reflects the four categories required to register on the E-Waste EPR Portal under Rule 4 of the Rules.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Source: CPCB FAQ, E-Waste (Management) Rules, 2022 and amendments thereafter — WM-III Division. Company names used as sample data only; figures below are illustrative, not verified company disclosures.
+</footer>
+
+<script>
+  const FY_TARGETS = {
+    "2023-24": 0.60,
+    "2024-25": 0.60,
+    "2025-26": 0.70,
+    "2026-27": 0.70,
+    "2027-28": 0.80,
+    "2028-29": 0.80,
+  };
+
+  let companies = [
+    { name: "Dixon Technologies", type: "Producer", generated: 420, actual: 300 },
+    { name: "Foxconn India", type: "Manufacturer", generated: 3200, actual: 2600 },
+    { name: "Tata Electronics", type: "Producer", generated: 90, actual: 70 },
+    { name: "Kaynes Technology", type: "Manufacturer", generated: 45, actual: 40 },
+    { name: "Centum Electronics", type: "Recycler", generated: 1200, actual: 1250 },
+  ];
+
+  function formatINR(num) {
+    return "₹" + Math.round(num).toLocaleString("en-IN");
+  }
+
+  function feeForTarget(targetMT) {
+    if (targetMT < 50) return 2500;
+    if (targetMT < 100) return 7500;
+    if (targetMT < 1000) return 150000;
+    if (targetMT < 5000) return 1000000;
+    return 1500000;
+  }
+
+  function render() {
+    const fy = document.getElementById("fySelect").value;
+    const pct = FY_TARGETS[fy];
+    document.getElementById("fyHint").textContent =
+      "Applicable target for " + fy.replace("-", "–") + ": " + Math.round(pct * 100) + "% of annual e-waste generated";
+
+    const tbody = document.getElementById("registerBody");
+    tbody.innerHTML = "";
+
+    companies.forEach((c, i) => {
+      const targetMT = c.generated * pct;
+      const fee = feeForTarget(targetMT);
+      const compliant = c.actual >= targetMT;
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>
+          <div class="company-name">${c.name}</div>
+          <div class="entity-tag">${c.type}</div>
+        </td>
+        <td class="num">${c.generated.toLocaleString("en-IN")}</td>
+        <td class="num">${Math.round(pct*100)}%</td>
+        <td class="num">${targetMT.toFixed(1)}</td>
+        <td class="num">${formatINR(fee)}</td>
+        <td class="num">
+          <input type="number" class="actual-input" data-idx="${i}" value="${c.actual}" min="0" step="0.1">
+        </td>
+        <td><span class="status ${compliant ? 'ok' : 'bad'}">${compliant ? 'Compliant' : 'Non-Compliant'}</span></td>
+        <td class="remove-cell"><button class="btn ghost" data-remove="${i}">Remove</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    tbody.querySelectorAll(".actual-input").forEach(inp => {
+      inp.addEventListener("change", (e) => {
+        const idx = +e.target.dataset.idx;
+        companies[idx].actual = parseFloat(e.target.value) || 0;
+        render();
+      });
+    });
+    tbody.querySelectorAll("[data-remove]").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const idx = +e.target.dataset.remove;
+        companies.splice(idx, 1);
+        render();
+      });
+    });
+  }
+
+  document.getElementById("fySelect").addEventListener("change", render);
+
+  document.getElementById("addForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("cName").value.trim();
+    const type = document.getElementById("cType").value;
+    const generated = parseFloat(document.getElementById("cGenerated").value) || 0;
+    const actual = parseFloat(document.getElementById("cActual").value) || 0;
+    if (!name || generated <= 0) return;
+    companies.push({ name, type, generated, actual });
+    e.target.reset();
+    document.getElementById("cType").value = "Producer";
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>

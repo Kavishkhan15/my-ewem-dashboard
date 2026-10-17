@@ -1,0 +1,14 @@
+# Friend's private HTML source: never commit or publish.
+references/Index.html
+# Credentials
+.env
+.env.*
+!.env.example
+# Build artifacts
+node_modules/
+.next/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/

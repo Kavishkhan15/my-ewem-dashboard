@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop Output — QuickPay Sprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#EEF1F0;
+    --dot:#D7DCD9;
+    --ink:#1B211D;
+    --teal:#1F6F5C;
+    --teal-deep:#134A3D;
+    --yellow:#FFE28A;
+    --blue:#C7E3EE;
+    --green:#CBE7CF;
+    --pink:#F6CBDA;
+    --peach:#FBD9B3;
+    --lav:#DAD3F0;
+    --card:#FFFFFF;
+    --line:#D9DCD6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle, var(--dot) 1.4px, transparent 1.4px) 0 0/22px 22px,
+      var(--canvas);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+  }
+  .topbar{
+    background:var(--teal-deep);
+    color:#EAF4EF;
+    padding:26px 28px 22px;
+  }
+  .topbar-inner{max-width:1180px; margin:0 auto;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:#9FCBBB;
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:clamp(24px,3.4vw,32px);
+    margin:0 0 8px;
+  }
+  .topbar p.desc{
+    margin:0;
+    max-width:640px;
+    color:#CFE4DB;
+    font-size:14.5px;
+  }
+  .agenda-strip{
+    display:flex;
+    gap:2px;
+    margin-top:20px;
+    border-radius:4px;
+    overflow:hidden;
+    max-width:1180px;
+  }
+  .agenda-strip .seg{
+    flex:1;
+    background:rgba(255,255,255,0.08);
+    padding:8px 10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:#BFDBD0;
+    border-left:1px solid rgba(255,255,255,0.15);
+  }
+  .agenda-strip .seg b{display:block; color:#fff; font-size:11.5px; margin-bottom:2px;}
+
+  main{max-width:1180px; margin:0 auto; padding:32px 28px 60px;}
+
+  .board-scroller{
+    display:flex;
+    gap:26px;
+    overflow-x:auto;
+    padding:10px 4px 26px;
+    scroll-snap-type:x proximity;
+  }
+  .frame{
+    scroll-snap-align:start;
+    min-width:560px;
+    max-width:560px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:20px 20px 24px;
+    box-shadow:0 1px 0 rgba(0,0,0,0.03);
+  }
+  @media (min-width:1240px){
+    .frame{min-width:700px; max-width:700px;}
+  }
+  .frame-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+    margin-bottom:16px;
+  }
+  .frame-title{
+    font-weight:600;
+    font-size:15.5px;
+  }
+  .frame-meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--teal);
+  }
+  .deliverable{
+    margin-top:16px;
+    background:#F4F8F5;
+    border-left:3px solid var(--teal);
+    padding:9px 12px;
+    font-size:13px;
+    color:#2C3A32;
+  }
+  .deliverable b{color:var(--teal-deep);}
+
+  /* Sticky notes */
+  .sticky-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .sticky{
+    width:150px;
+    min-height:90px;
+    padding:10px 11px;
+    border-radius:2px;
+    font-family:'Kalam',cursive;
+    font-size:14.5px;
+    line-height:1.28;
+    position:relative;
+    box-shadow:1px 2px 4px rgba(0,0,0,0.08);
+    transform:rotate(var(--r,0deg));
+  }
+  .sticky:nth-child(1){--r:-1.5deg;}
+  .sticky:nth-child(2){--r:1deg;}
+  .sticky:nth-child(3){--r:-0.5deg;}
+  .sticky:nth-child(4){--r:1.8deg;}
+  .sticky:nth-child(5){--r:-1deg;}
+  .sticky:nth-child(6){--r:0.6deg;}
+  .sticky.y{background:var(--yellow);}
+  .sticky.b{background:var(--blue);}
+  .sticky.g{background:var(--green);}
+  .sticky.p{background:var(--pink);}
+  .sticky.o{background:var(--peach);}
+  .sticky.l{background:var(--lav);}
+  .dots{
+    position:absolute;
+    bottom:8px;
+    right:9px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:#4A4235;
+    background:rgba(255,255,255,0.55);
+    padding:1px 5px;
+    border-radius:8px;
+  }
+  .winner-badge{
+    display:inline-block;
+    margin-top:14px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    background:var(--teal);
+    color:#fff;
+    padding:4px 9px;
+    border-radius:3px;
+  }
+
+  /* HMW */
+  .hmw-box{
+    font-family:'Kalam',cursive;
+    font-size:19px;
+    background:var(--yellow);
+    padding:16px 18px;
+    border-radius:3px;
+    box-shadow:1px 2px 4px rgba(0,0,0,0.08);
+    margin-bottom:18px;
+  }
+  .cluster{margin-bottom:14px;}
+  .cluster h4{
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--teal-deep);
+    margin:0 0 8px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:'Kalam',cursive;
+    font-size:13px;
+    background:var(--blue);
+    padding:6px 10px;
+    border-radius:12px;
+    box-shadow:1px 1px 3px rgba(0,0,0,0.06);
+  }
+  .cluster.b .chip{background:var(--green);}
+  .cluster.c .chip{background:var(--peach);}
+
+  /* Impact/Effort */
+  .matrix{
+    position:relative;
+    width:100%;
+    height:280px;
+    border-left:2px solid var(--ink);
+    border-bottom:2px solid var(--ink);
+    margin-top:6px;
+  }
+  .matrix .axis-label{
+    position:absolute;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:#5B655E;
+  }
+  .axis-label.x{bottom:-22px; right:0;}
+  .axis-label.x.low{left:0; bottom:-22px; right:auto;}
+  .axis-label.y{top:0; left:-46px; writing-mode:vertical-rl; transform:rotate(180deg);}
+  .axis-label.y.low{bottom:0; top:auto; left:-46px;}
+  .quad-hint{
+    position:absolute;
+    top:8px; left:10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:#9AA69E;
+  }
+  .plot{
+    position:absolute;
+    width:120px;
+    padding:8px 10px;
+    font-family:'Kalam',cursive;
+    font-size:12.5px;
+    border-radius:3px;
+    box-shadow:1px 2px 4px rgba(0,0,0,0.1);
+    line-height:1.25;
+  }
+  .plot.winner{border:2px solid var(--teal-deep); font-weight:700;}
+
+  /* Flow */
+  .flow-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-top:6px;
+  }
+  .flow-box{
+    background:var(--blue);
+    border-radius:4px;
+    padding:12px 12px;
+    font-size:12.5px;
+    width:150px;
+    min-height:64px;
+    box-shadow:1px 2px 4px rgba(0,0,0,0.06);
+  }
+  .flow-box .step-no{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:var(--teal-deep);
+    display:block;
+    margin-bottom:4px;
+  }
+  .arrow{font-size:16px; color:#9AA69E;}
+
+  /* Wireframes */
+  .screens-row{display:flex; gap:16px; margin-top:10px; flex-wrap:wrap;}
+  .phone{
+    width:130px;
+    border:2px solid var(--ink);
+    border-radius:14px;
+    padding:8px 7px;
+    background:#fff;
+  }
+  .phone .screen-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    color:var(--teal);
+    text-align:center;
+    margin-bottom:6px;
+  }
+  .phone .block{
+    background:#EEF1EF;
+    border:1px solid var(--line);
+    border-radius:3px;
+    margin-bottom:5px;
+    padding:6px;
+    font-size:8.5px;
+    color:#6B756F;
+  }
+  .phone .block.tall{height:44px;}
+  .phone .block.pill{
+    background:var(--teal);
+    color:#fff;
+    text-align:center;
+    font-size:9px;
+    padding:6px;
+    border-radius:14px;
+  }
+  .open-q{margin-top:16px;}
+  .open-q h4{font-size:12.5px; margin:0 0 8px; color:var(--teal-deep); font-weight:600;}
+
+  /* Roadmap */
+  .roadmap{display:flex; gap:14px; margin-top:6px;}
+  .rm-col{flex:1;}
+  .rm-col h4{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--teal-deep);
+    margin:0 0 10px;
+    padding-bottom:6px;
+    border-bottom:2px solid var(--line);
+  }
+  .rm-card{
+    background:#F7F8F6;
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:9px 10px;
+    font-size:12.5px;
+    margin-bottom:8px;
+  }
+  .rm-col.now .rm-card{border-left:3px solid var(--teal);}
+  .reflections{margin-top:20px;}
+  .reflections h4{font-size:12.5px; margin:0 0 10px; color:var(--teal-deep); font-weight:600;}
+
+  /* Test matrix */
+  table.testmatrix{width:100%; border-collapse:collapse; margin-top:8px; font-size:13px;}
+  table.testmatrix th, table.testmatrix td{
+    border-bottom:1px solid var(--line);
+    padding:9px 8px;
+    text-align:left;
+  }
+  table.testmatrix th{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--teal-deep);
+    border-bottom:2px solid var(--teal);
+  }
+  .pf{
+    display:inline-block;
+    width:16px; height:16px;
+    border:1.5px solid var(--line);
+    border-radius:3px;
+  }
+
+  .scroll-hint{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:#6D766F;
+    margin:0 0 14px;
+  }
+
+  .tips{
+    margin-top:44px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--teal);
+    padding:18px 20px;
+    font-size:13.5px;
+  }
+  .tips h3{margin:0 0 10px; font-size:15px; color:var(--teal-deep);}
+  .tips ul{margin:0; padding-left:20px;}
+  .tips li{margin-bottom:6px;}
+
+  footer{
+    max-width:1180px;
+    margin:36px auto 0;
+    padding:18px 28px 0;
+    border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:#6D766F;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <p class="tag">45-MIN MIRO WORKSHOP — COMPLETED RUN</p>
+    <h1>Workshop Output: QuickPay Bill-Split Sprint</h1>
+    <p class="desc">Below is the completed board — all six frames filled in as if a 4–8 person team had just run the full session, following the agenda exactly, using QuickPay's in-app bill-split feature as the practice case.</p>
+    <div class="agenda-strip">
+      <div class="seg"><b>0:00–0:05</b>Welcome</div>
+      <div class="seg"><b>0:05–0:12</b>Research Sync</div>
+      <div class="seg"><b>0:12–0:22</b>Ideation</div>
+      <div class="seg"><b>0:22–0:27</b>Concept Pick</div>
+      <div class="seg"><b>0:27–0:37</b>Rapid Design</div>
+      <div class="seg"><b>0:37–0:42</b>Walkthrough</div>
+      <div class="seg"><b>0:42–0:47</b>Roadmap</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <p class="scroll-hint">Scroll sideways to move through the board, frame by frame — just like on Miro →</p>
+
+  <div class="board-scroller">
+
+    <!-- FRAME 1 -->
+    <div class="frame">
+      <div class="frame-head">
+        <div class="frame-title">Frame 1 — Research Recap</div>
+        <div class="frame-meta">0:05–0:12 · dot-vote</div>
+      </div>
+      <div class="sticky-grid">
+        <div class="sticky y">Splitting a bill takes 6+ taps<span class="dots">●9</span></div>
+        <div class="sticky b">Users forget to mark tax/tip in the split<span class="dots">●3</span></div>
+        <div class="sticky g">No way to split unevenly among people<span class="dots">●2</span></div>
+        <div class="sticky p">Confusing when someone doesn't have the app<span class="dots">●2</span></div>
+        <div class="sticky o">Payment-request reminders feel spammy<span class="dots">●1</span></div>
+        <div class="sticky l">Currency confusion on group trips abroad<span class="dots">●1</span></div>
+      </div>
+      <div class="winner-badge">Winner (9/18 dots) → "Splitting a bill takes 6+ taps"</div>
+      <div class="deliverable"><b>Deliverable:</b> One agreed pain point — <i>"Splitting a bill takes 6+ taps."</i></div>
+    </div>
+
+    <!-- FRAME 2 -->
+    <div class="frame">
+      <div class="frame-head">
+        <div class="frame-title">Frame 2 — How Might We</div>
+        <div class="frame-meta">0:12–0:22 · Crazy-8s</div>
+      </div>
+      <div class="hmw-box">How might we let someone split a bill in one tap?</div>
+      <div class="cluster a">
+        <h4>Cluster A — Smart defaults</h4>
+        <div class="chip-row">
+          <div class="chip">Auto-split evenly by default</div>
+          <div class="chip">Remember last group's split ratio</div>
+          <div class="chip">Suggest split from receipt scan</div>
+        </div>
+      </div>
+      <div class="cluster b">
+        <h4>Cluster B — One-tap contact split</h4>
+        <div class="chip-row">
+          <div class="chip">Tap contacts, app reconciles totals</div>
+          <div class="chip">Drag amount onto a contact avatar</div>
+          <div class="chip">Reuse last night's group instantly</div>
+        </div>
+      </div>
+      <div class="cluster c">
+        <h4>Cluster C — Voice / AI split</h4>
+        <div class="chip-row">
+          <div class="chip">"Split with Sam and Jo"</div>
+          <div class="chip">AI reads the receipt photo</div>
+        </div>
+      </div>
+      <div class="deliverable"><b>Deliverable:</b> 3 labelled idea clusters — Smart defaults, One-tap contact split, Voice/AI split.</div>
+    </div>
+
+    <!-- FRAME 3 -->
+    <div class="frame">
+      <div class="frame-head">
+        <div class="frame-title">Frame 3 — Impact / Effort Matrix</div>
+        <div class="frame-meta">0:22–0:27 · concept pick</div>
+      </div>
+      <div class="matrix">
+        <span class="quad-hint">high impact, low effort →</span>
+        <span class="axis-label x low">low effort</span>
+        <span class="axis-label x">high effort</span>
+        <span class="axis-label y low">low impact</span>
+        <span class="axis-label y">high impact</span>
+        <div class="plot winner" style="left:18px; top:22px; background:var(--blue);">One-tap contact-based split ★ selected</div>
+        <div class="plot" style="left:170px; top:60px; background:var(--green);">Smart defaults</div>
+        <div class="plot" style="left:280px; top:150px; background:var(--peach);">Voice / AI split</div>
+      </div>
+      <div class="deliverable"><b>Deliverable:</b> One selected concept — <i>"One-tap contact-based split."</i></div>
+    </div>
+
+    <!-- FRAME 4 -->
+    <div class="frame">
+      <div class="frame-head">
+        <div class="frame-title">Frame 4 — User Flow</div>
+        <div class="frame-meta">0:27–0:37 · 5 steps</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-box"><span class="step-no">STEP 1</span>Open bill → tap "Split"</div>
+        <div class="arrow">→</div>
+        <div class="flow-box"><span class="step-no">STEP 2</span>Select contacts from recent group</div>
+        <div class="arrow">→</div>
+        <div class="flow-box"><span class="step-no">STEP 3</span>App auto-splits evenly, tap to adjust</div>
+        <div class="arrow">→</div>
+        <div class="flow-box"><span class="step-no">STEP 4</span>Confirm and send requests</div>
+        <div class="arrow">→</div>
+        <div class="flow-box"><span class="step-no">STEP 5</span>Contacts get one-tap "Pay my share"</div>
+      </div>
+      <div class="deliverable"><b>Deliverable:</b> A 5-step flow diagram for the one-tap contact-split concept.</div>
+    </div>
+
+    <!-- FRAME 5 -->
+    <div class="frame">
+      <div class="frame-head">
+        <div class="frame-title">Frame 5 — Wireframes (linked)</div>
+        <div class="frame-meta">0:27–0:42 · sketch + walkthrough</div>
+      </div>
+      <div class="screens-row">
+        <div class="phone">
+          <div class="screen-label">Screen 1</div>
+          <div class="block tall">Recent group avatars (tap to select)</div>
+          <div class="block">Search contacts</div>
+          <div class="block pill">Continue</div>
+        </div>
+        <div class="phone">
+          <div class="screen-label">Screen 2</div>
+          <div class="block">Bill total: ₹1,240</div>
+          <div class="block tall">Split evenly: 4 people · ₹310 each (tap to adjust)</div>
+          <div class="block pill">Confirm split</div>
+        </div>
+        <div class="phone">
+          <div class="screen-label">Screen 3</div>
+          <div class="block tall">✓ Requests sent to Sam, Jo, Priya</div>
+          <div class="block">Track who's paid</div>
+          <div class="block pill">Done</div>
+        </div>
+      </div>
+      <div class="open-q">
+        <h4>Flagged during walkthrough</h4>
+        <div class="sticky-grid">
+          <div class="sticky p">Do we need to support partial payments?</div>
+          <div class="sticky o">How do we handle a contact without QuickPay installed?</div>
+        </div>
+      </div>
+      <div class="deliverable"><b>Deliverable:</b> A clickable 3-screen flow, plus 2 flagged open questions.</div>
+    </div>
+
+    <!-- FRAME 6 -->
+    <div class="frame">
+      <div class="frame-head">
+        <div class="frame-title">Frame 6 — Roadmap</div>
+        <div class="frame-meta">0:42–0:47 · wrap-up</div>
+      </div>
+      <div class="roadmap">
+        <div class="rm-col now">
+          <h4>Now</h4>
+          <div class="rm-card">Usability-test the one-tap split flow</div>
+          <div class="rm-card">Design the "contact without app" invite flow</div>
+        </div>
+        <div class="rm-col">
+          <h4>Next</h4>
+          <div class="rm-card">Support uneven / custom splits</div>
+          <div class="rm-card">Auto-detect tax and tip in split</div>
+        </div>
+        <div class="rm-col">
+          <h4>Later</h4>
+          <div class="rm-card">Voice-activated splitting</div>
+          <div class="rm-card">Multi-currency group trips</div>
+        </div>
+      </div>
+      <div class="reflections">
+        <h4>Team reflections (3 words each)</h4>
+        <div class="sticky-grid">
+          <div class="sticky y">Fast but messy</div>
+          <div class="sticky b">Loved the timer</div>
+          <div class="sticky g">Wireframes felt rushed</div>
+          <div class="sticky p">Clear next step</div>
+          <div class="sticky o">Want more voting</div>
+        </div>
+      </div>
+      <div class="deliverable"><b>Deliverable:</b> Now/Next/Later roadmap seeded with 2 real next steps, plus 5 team reflections.</div>
+    </div>
+
+    <!-- OPTIONAL EXTENSION -->
+    <div class="frame">
+      <div class="frame-head">
+        <div class="frame-title">Optional — Test Case Matrix</div>
+        <div class="frame-meta">0:47–0:55 · +8 min extension</div>
+      </div>
+      <table class="testmatrix">
+        <thead><tr><th>Test case</th><th>Pass / Fail</th></tr></thead>
+        <tbody>
+          <tr><td>Split a ₹1,240 bill evenly across 4 contacts</td><td><span class="pf"></span></td></tr>
+          <tr><td>Adjust one person's share after auto-split</td><td><span class="pf"></span></td></tr>
+          <tr><td>Send a request to a contact without QuickPay installed</td><td><span class="pf"></span></td></tr>
+          <tr><td>Partially pay a requested share, then complete it later</td><td><span class="pf"></span></td></tr>
+          <tr><td>Re-use the same group for a second bill same evening</td><td><span class="pf"></span></td></tr>
+          <tr><td>Cancel a split after requests have already been sent</td><td><span class="pf"></span></td></tr>
+        </tbody>
+      </table>
+      <div class="deliverable"><b>Deliverable:</b> A starter test case matrix, ready to hand to a real QA pass.</div>
+    </div>
+
+  </div>
+
+  <div class="tips">
+    <h3>Facilitator tips (as run)</h3>
+    <ul>
+      <li>Timekeeper kept the countdown pinned to the top of the board throughout — no block was allowed to silently overrun.</li>
+      <li>Rapid Design ran long by 90 seconds; discussion was cut, not the clock, and the gallery walk absorbed the overflow.</li>
+      <li>"Ugly and fast" held — none of the 3 wireframes were polished, which is what let all 3 get sketched in 7 minutes.</li>
+      <li>Board was duplicated and saved as "Workshop Template – Research to Roadmap" immediately after the session for reuse.</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  Source: 45-Minute Miro Workshop — Follow-Up Task (Research-to-Roadmap Sprint). Content shown is a simulated completed run of the QuickPay practice case, following the agenda and deliverables exactly as scripted.
+</footer>
+
+</body>
+</html>

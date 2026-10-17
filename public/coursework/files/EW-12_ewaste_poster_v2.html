@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-Waste Campaign Poster — Materials Recovery Scan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg: #0A1928;
+    --panel: #0F2438;
+    --panel-edge: rgba(232,238,242,0.12);
+    --cyan: #4FD8C4;
+    --amber: #FFB454;
+    --ink: #E8EEF2;
+    --ink-dim: rgba(232,238,242,0.62);
+    --ink-dimmer: rgba(232,238,242,0.36);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:#04101c;
+    display:flex; justify-content:center; padding:40px 20px;
+    font-family:'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  }
+  .poster{
+    width:900px;
+    min-height:1220px;
+    background: var(--bg);
+    color: var(--ink);
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--panel-edge);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* corner scan brackets */
+  .bracket{ position:absolute; width:26px; height:26px; border-color: var(--cyan); opacity:0.7; }
+  .bracket.tl{ top:24px; left:24px; border-top:2px solid; border-left:2px solid; }
+  .bracket.tr{ top:24px; right:24px; border-top:2px solid; border-right:2px solid; }
+  .bracket.bl{ bottom:24px; left:24px; border-bottom:2px solid; border-left:2px solid; }
+  .bracket.br{ bottom:24px; right:24px; border-bottom:2px solid; border-right:2px solid; }
+
+  .top{ padding:64px 64px 0 64px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color: var(--cyan);
+    letter-spacing: 0.3px;
+    margin-bottom:20px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--cyan); box-shadow:0 0 8px var(--cyan); }
+
+  h1{
+    font-weight:700;
+    font-size:56px;
+    line-height:1.08;
+    letter-spacing:-0.5px;
+    max-width:680px;
+  }
+  .sub{
+    margin-top:22px;
+    font-size:17px;
+    max-width:520px;
+    color: var(--ink-dim);
+    line-height:1.6;
+    font-weight:400;
+  }
+
+  .diagram-section{ margin-top:34px; padding:0 40px; position:relative; }
+  .diagram-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color: var(--ink-dimmer);
+    text-align:center;
+    margin-bottom:2px;
+  }
+  .diagram-wrap{ width:100%; }
+
+  .callout .mat{ font-weight:700; font-size:16px; fill: var(--amber); font-family:'Space Grotesk', sans-serif; }
+  .callout .comp{ font-weight:400; font-size:12.5px; fill: var(--ink-dim); font-family:'Space Grotesk', sans-serif; }
+  .leader{ stroke: rgba(79,216,196,0.55); stroke-width:1.4; stroke-dasharray:2 4; fill:none; }
+  .node{ fill: var(--cyan); }
+
+  .readouts{
+    margin-top:30px;
+    padding: 34px 64px;
+    display:flex;
+    justify-content:space-between;
+    gap:24px;
+    border-top: 1px solid var(--panel-edge);
+    border-bottom: 1px solid var(--panel-edge);
+  }
+  .readout{ flex:1; }
+  .readout .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:46px;
+    font-weight:500;
+    color: var(--cyan);
+    line-height:1;
+  }
+  .readout .desc{
+    margin-top:10px;
+    font-size:14px;
+    color: var(--ink-dim);
+    line-height:1.5;
+    max-width:320px;
+  }
+
+  .bottom-band{
+    margin-top:auto;
+    background: var(--panel);
+    padding: 40px 64px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .cta-title{ font-size:23px; font-weight:700; color: var(--ink); }
+  .cta-detail{ font-size:14px; color: var(--ink-dim); margin-top:8px; max-width:360px; line-height:1.5; }
+  .cta-row{ display:flex; align-items:center; }
+  .qr{
+    width:88px; height:88px;
+    background:
+      repeating-linear-gradient(45deg, var(--cyan) 0 5px, transparent 5px 10px),
+      repeating-linear-gradient(-45deg, var(--amber) 0 5px, transparent 5px 10px);
+    background-blend-mode: screen;
+    opacity:0.85;
+    margin-left:26px;
+    border-radius:2px;
+    flex-shrink:0;
+  }
+</style>
+</head>
+<body>
+  <div class="poster">
+    <div class="bracket tl"></div>
+    <div class="bracket tr"></div>
+    <div class="bracket bl"></div>
+    <div class="bracket br"></div>
+
+    <div class="top">
+      <div class="eyebrow"><span class="dot"></span>Materials recovery scan</div>
+      <h1>There's a small mine inside every phone you own.</h1>
+      <p class="sub">Before it goes in the bin, here's what a device like yours is actually made of — and why the wrong drop-off point wastes all of it.</p>
+    </div>
+
+    <div class="diagram-section">
+      <div class="diagram-label">// scan readout — device: smartphone</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg">
+          <!-- phone body -->
+          <rect x="360" y="90" width="80" height="380" rx="14" stroke="#E8EEF2" stroke-width="2" fill="none" opacity="0.9"/>
+          <line x1="378" y1="446" x2="422" y2="446" stroke="#E8EEF2" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+          <rect x="368" y="106" width="64" height="300" stroke="rgba(232,238,242,0.3)" stroke-width="1" fill="none"/>
+
+          <!-- attach nodes on phone -->
+          <circle class="node" cx="400" cy="130" r="3.5"/>
+          <circle class="node" cx="368" cy="200" r="3.5"/>
+          <circle class="node" cx="432" cy="230" r="3.5"/>
+          <circle class="node" cx="368" cy="330" r="3.5"/>
+          <circle class="node" cx="400" cy="466" r="3.5"/>
+
+          <!-- leader lines (elbowed) -->
+          <path class="leader" d="M400,130 L400,80 L190,80 L190,105"/>
+          <path class="leader" d="M368,200 L230,200 L230,225"/>
+          <path class="leader" d="M432,230 L610,230 L610,255"/>
+          <path class="leader" d="M368,330 L230,330 L230,355"/>
+          <path class="leader" d="M400,466 L400,500 L610,500 L610,475"/>
+
+          <!-- callouts -->
+          <g class="callout" text-anchor="start">
+            <g transform="translate(120,105)"><text class="mat" y="0">Rare earth elements</text><text class="comp" y="20">Speaker &amp; vibration motor</text></g>
+            <g transform="translate(120,225)"><text class="mat" y="0">Copper</text><text class="comp" y="20">Internal wiring &amp; coils</text></g>
+            <g transform="translate(560,255)" text-anchor="end"><text class="mat" y="0">Gold</text><text class="comp" y="20">Connector &amp; board contacts</text></g>
+            <g transform="translate(120,355)"><text class="mat" y="0">Lithium &amp; cobalt</text><text class="comp" y="20">Battery cell</text></g>
+            <g transform="translate(560,475)" text-anchor="end"><text class="mat" y="0">Palladium &amp; silver</text><text class="comp" y="20">Circuit board</text></g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="readouts">
+      <div class="readout">
+        <div class="num">17%</div>
+        <div class="desc">of the world's e-waste is properly collected and recycled each year. The rest is landfilled, burned, or shipped informally.</div>
+      </div>
+      <div class="readout">
+        <div class="num">60+</div>
+        <div class="desc">elements can be packed into one smartphone — more than a third of the periodic table, most of it recoverable.</div>
+      </div>
+    </div>
+
+    <div class="bottom-band">
+      <div>
+        <div class="cta-title">Send yours through the drive, not the bin.</div>
+        <div class="cta-detail">Phones, cables, chargers, batteries — anything with a plug or a circuit counts. We handle the data wipe and the sorting.</div>
+      </div>
+      <div class="cta-row">
+        <div class="qr"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* RECLAIM — Vintage Laboratory Instrument & Industrial Slate Design System */
+
+:root {
+  /* Dark Graphite Lab / Instrument Body (Default Dark Theme) */
+  --canvas: #0C0F0E;
+  --surface: #141816;
+  --surface-raised: #1B221E;
+  --text: #EAEFEB;
+  --text-muted: #9EA8A2;
+  --border: #252B28;
+  
+  /* Physical Accent Temperatures */
+  --emerald: #10B981;        /* Precision phosphor emerald */
+  --lime: #8E9E78;           /* Calibrated sage / specimen moss (anti-neon) */
+  --cyan: #5B827E;           /* Anodized copper verdigris (anti-candy) */
+  --amber: #D97706;          /* Incandescent filament amber / warm brass */
+  --danger: #DC4C3E;         /* Industrial thermal alarm */
+}
+
+.light {
+  /* Archival Field Ledger / Scientific Specimen Stock */
+  --canvas: #F2F4F2;
+  --surface: #FCFDFB;
+  --surface-raised: #E6EAE7;
+  --text: #121614;           /* Carbon drawing ink */
+  --text-muted: #57635C;     /* Pencil graphite */
+  --border: #D1D9D3;         /* Ruled ledger hairline */
+  
+  /* Calibrated Light Accents */
+  --emerald: #0D7A55;
+  --lime: #50663B;
+  --cyan: #315954;
+  --amber: #A15509;
+  --danger: #B8281E;
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--text);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'tnum';
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Precision Mechanical Focus Indicator */
+*:focus-visible {
+  outline: 1.5px solid var(--emerald);
+  outline-offset: 2px;
+}
+
+/* Calibrated Tactile Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Tactile Utility Classes */
+@layer utilities {
+  .hairline-border {
+    border-width: 1px;
+    border-color: var(--border);
+  }
+  
+  .tactile-plate {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.03), 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .lab-grid {
+    background-size: 32px 32px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  }
+}

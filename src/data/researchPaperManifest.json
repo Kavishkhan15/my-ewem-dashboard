@@ -1,0 +1,104 @@
+{
+  "title": "Explanation Reliability and Failure Detection in Phishing URL Classification Under Dataset Shift",
+  "author": {
+    "name": "Kasim Ishaque Ghanchi",
+    "department": "Department of Computer Engineering",
+    "location": "Mumbai, India",
+    "email": "kasimghanchi672@gmail.com",
+    "orcid": "0009-0007-7444-9977"
+  },
+  "abstract": "High accuracy on a random test split does not establish that a phishing URL classifier will remain reliable on new domains or data collected through different pipelines. Nor does a plausible feature-attribution plot establish that its explanation is faithful to the classifier. This paper develops an auditable comparative protocol for evaluating prediction quality, explanation reliability, and the usefulness of explanations for identifying classification failures under dataset shift. It specifies matched lexical inputs; domain-disjoint and cross-corpus evaluation; logistic-regression and tree-ensemble baselines; SHAP and LIME explanation audits; and a held-out comparison of confidence-only, explanation-only, and combined error-warning rules. A descriptive comparison of two published datasets exposes a substantial class-prior difference: the published counts imply 62.9% phishing URLs in LegitPhish and 10.4% in URL-Phish. This difference motivates prior-aware evaluation and explicit checks for source artifacts. The resulting protocol identifies testable hypotheses, leakage controls, effect-size reporting, and a practical evidence standard for responsible deployment. This version reports verified literature-derived dataset statistics and a structured experimental plan; no new model-training or explanation-performance results are claimed.",
+  "keywords": [
+    "explainable artificial intelligence",
+    "phishing URL detection",
+    "SHAP",
+    "LIME",
+    "domain shift",
+    "calibration",
+    "selective classification",
+    "responsible AI"
+  ],
+  "documents": {
+    "pdf": {
+      "filename": "paper.pdf",
+      "publicUrl": "/research-paper/paper.pdf",
+      "size": 370905,
+      "sha256": "8872d52108c33742095062bc2a26897f53079ffca8a0116600ce91fa08949dae"
+    },
+    "docx": {
+      "filename": "paper.docx",
+      "publicUrl": "/research-paper/paper.docx",
+      "size": 373123,
+      "sha256": "616a944a611a58c9c982506a26a24fe2a23963c7ab50d45bc4f90f04686b35b3"
+    },
+    "tex": {
+      "filename": "paper.tex",
+      "publicUrl": "/research-paper/paper.tex",
+      "size": 22957,
+      "sha256": "280690e101465084a923a99dff8f0aa720f0527835fa0b6fcc159339f36d7c35"
+    },
+    "zip": {
+      "filename": "Research_Paper.zip",
+      "publicUrl": "/research-paper/Research_Paper.zip",
+      "size": 2642896,
+      "sha256": "37a85136eff3ae99c404d041063ab7ecdecde237415910278b4351c137a42e8b"
+    }
+  },
+  "figures": [
+    {
+      "name": "ablation_schema",
+      "title": "Ablation Schema (Warning Rules Comparison)",
+      "caption": "Planned, not measured, comparison of confidence-only, explanation-only, and combined warnings.",
+      "pngPath": "/research-paper/figures/ablation_schema.png",
+      "pdfPath": "/research-paper/figures/ablation_schema.pdf",
+      "pngSize": 46035,
+      "pdfSize": 19301,
+      "pngHash": "4d0bffbdbdad9d27cd0b96e9ccef574c0ee6203f39a8015083377c660e14272a",
+      "pdfHash": "45f3493a3af97d2ba9c02b34e298d40f93497f68dc5c9a09d20aac01ab97443f"
+    },
+    {
+      "name": "ai_workflow_concept",
+      "title": "AI Workflow Concept & Architecture",
+      "caption": "Conceptual architecture for transparent AI inspection and decision auditing.",
+      "pngPath": "/research-paper/figures/ai_workflow_concept.png",
+      "pdfPath": null,
+      "pngSize": 1707007,
+      "pdfSize": null,
+      "pngHash": "fef75218b17575805c3b00ba25d38304ac133f2454a0aff6fe35b75fb926fceb",
+      "pdfHash": null
+    },
+    {
+      "name": "evaluation_dimensions",
+      "title": "Evaluation Dimensions & Verification Taxonomy",
+      "caption": "Taxonomy of prediction quality, explanation reliability, and operational failure detection dimensions.",
+      "pngPath": "/research-paper/figures/evaluation_dimensions.png",
+      "pdfPath": "/research-paper/figures/evaluation_dimensions.pdf",
+      "pngSize": 57964,
+      "pdfSize": 27239,
+      "pngHash": "95294ddde4efdf418e3cd4c7e3cb3239625d2d134daaf05a06de27f0b1d3d5dd",
+      "pdfHash": "15f787930d6f778c4deb71c03ca0a4a1572df445fb7c72809cefc93139822b4a"
+    },
+    {
+      "name": "published_dataset_balance",
+      "title": "Published Dataset Balance & Class Priors",
+      "caption": "Class composition calculated from published class counts in LegitPhish and URL-Phish corpora.",
+      "pngPath": "/research-paper/figures/published_dataset_balance.png",
+      "pdfPath": "/research-paper/figures/published_dataset_balance.pdf",
+      "pngSize": 55118,
+      "pdfSize": 19734,
+      "pngHash": "8aa7228dabf20a32e6333c98cb0fcfbac3568ba29e2b84e9956350213a6aefb4",
+      "pdfHash": "ca1522852cd7170cd12e434a05198a4e050a9b9b41f23d9e1be0572c8616721d"
+    },
+    {
+      "name": "research_workflow",
+      "title": "Auditable Research Protocol Workflow",
+      "caption": "Proposed research workflow: datasets, data-leakage prevention, classifiers, explanation audits, warning rules, and cross-corpus evaluation.",
+      "pngPath": "/research-paper/figures/research_workflow.png",
+      "pdfPath": "/research-paper/figures/research_workflow.pdf",
+      "pngSize": 201358,
+      "pdfSize": 26518,
+      "pngHash": "4b6a80ec8d9e80ef50411bfa0159abdc293cb435ff3fd9bbea3b22ebecdd6b0b",
+      "pdfHash": "d9fc9f54b1e1a8707303848636c1aefc43011239eff4697929cd19293428e7bb"
+    }
+  ]
+}
