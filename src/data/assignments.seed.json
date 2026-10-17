@@ -1,33 +1,14 @@
 {
   "version": 1,
-  "source": "User-supplied EW/EM assignment portal screenshots. Portal activity dates are NOT verified due dates.",
+  "source": "Kavish Khan (24102C0036) personal EWEM assignment files. Portal activity dates are NOT verified due dates.",
   "assignments": [
     {
-      "id": "EW-01",
+      "id": "KV-01",
       "portalTitle": "Toxic Chemicals_Any 5",
       "displayTitle": "Toxic Chemicals — Any Five",
       "portalActivityDate": "2026-07-24",
       "category": "Research, Policy & Sustainability",
       "dueDate": null,
-      "portalBadgeObserved": false,
-      "portalBadgeText": null,
-      "actualSubmissionStatus": "unverified",
-      "workStatus": "not_reviewed",
-      "qualityStatus": "not_assessed",
-      "grade": null,
-      "published": false,
-      "tasks": [],
-      "files": [],
-      "sources": [],
-      "notes": ""
-    },
-    {
-      "id": "EW-02",
-      "portalTitle": "Assignment 2_Submit the Class Activity_Map of e waste",
-      "displayTitle": "Assignment 2 — E-Waste Map",
-      "portalActivityDate": "2026-07-28",
-      "category": "Technical & Recovery Processes",
-      "dueDate": null,
       "portalBadgeObserved": true,
       "portalBadgeText": "Turned in",
       "actualSubmissionStatus": "unverified",
@@ -36,52 +17,23 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-01-F1",
+          "originalName": "24102C0036_Kavish_Khan_Toxic_Chemicals.pdf",
+          "storedName": "24102C0036_Kavish_Khan_Toxic_Chemicals.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 40001
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-03",
-      "portalTitle": "Assignment 3_Elemental Recovery Process Update",
-      "displayTitle": "Assignment 3 — Elemental Recovery Process",
-      "portalActivityDate": "2026-07-28",
-      "category": "Technical & Recovery Processes",
-      "dueDate": null,
-      "portalBadgeObserved": true,
-      "portalBadgeText": "Turned in",
-      "actualSubmissionStatus": "unverified",
-      "workStatus": "not_reviewed",
-      "qualityStatus": "not_assessed",
-      "grade": null,
-      "published": false,
-      "tasks": [],
-      "files": [],
-      "sources": [],
-      "notes": ""
-    },
-    {
-      "id": "EW-04",
-      "portalTitle": "Assignment Zero_Check AAP",
-      "displayTitle": "Assignment Zero — Check AAP",
-      "portalActivityDate": "2026-07-31",
-      "category": "Assessment / Administrative",
-      "dueDate": null,
-      "portalBadgeObserved": true,
-      "portalBadgeText": "Turned in",
-      "actualSubmissionStatus": "unverified",
-      "workStatus": "not_reviewed",
-      "qualityStatus": "not_assessed",
-      "grade": null,
-      "published": false,
-      "tasks": [],
-      "files": [],
-      "sources": [],
-      "notes": ""
-    },
-    {
-      "id": "EW-05",
+      "id": "KV-02",
       "portalTitle": "Assignment 1_E waste Traker",
-      "displayTitle": "Assignment 1 — E-Waste Tracker",
+      "displayTitle": "E-Waste Tracker — State Data",
       "portalActivityDate": "2026-08-02",
       "category": "Data Analytics & Tracking",
       "dueDate": null,
@@ -93,12 +45,49 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-02-F1",
+          "originalName": "State_EWaste_Tracker_Final 1.xlsx",
+          "storedName": "State_EWaste_Tracker_Final_1.xlsx",
+          "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "ext": "xlsx",
+          "sizeBytes": 39567
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-06",
+      "id": "KV-03",
+      "portalTitle": "Assignment 3_Elemental Recovery Process Update",
+      "displayTitle": "Assignment 3 — Recovery Process Changes",
+      "portalActivityDate": "2026-07-28",
+      "category": "Technical & Recovery Processes",
+      "dueDate": null,
+      "portalBadgeObserved": true,
+      "portalBadgeText": "Turned in",
+      "actualSubmissionStatus": "unverified",
+      "workStatus": "not_reviewed",
+      "qualityStatus": "not_assessed",
+      "grade": null,
+      "published": false,
+      "tasks": [],
+      "files": [
+        {
+          "fileId": "KV-03-F1",
+          "originalName": "KAVISH_EWEM_ASS3_CHANGES.pdf",
+          "storedName": "KAVISH_EWEM_ASS3_CHANGES.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 323993
+        }
+      ],
+      "sources": [],
+      "notes": ""
+    },
+    {
+      "id": "KV-04",
       "portalTitle": "E waste India Vs World Data Task_Class Activity",
       "displayTitle": "E-Waste: India vs World",
       "portalActivityDate": "2026-08-04",
@@ -112,14 +101,23 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-04-F1",
+          "originalName": "evem india vs world.pdf",
+          "storedName": "evem_india_vs_world.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 226221
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-07",
-      "portalTitle": "Carbon Footprint Task_Excel activity Task",
-      "displayTitle": "Carbon Footprint — Excel Activity",
+      "id": "KV-05",
+      "portalTitle": "EPR Calculator Task",
+      "displayTitle": "E-Waste EPR Calculator Report",
       "portalActivityDate": "2026-08-11",
       "category": "Data Analytics & Tracking",
       "dueDate": null,
@@ -131,16 +129,25 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-05-F1",
+          "originalName": "EWaste_EPR_Calculator_Report.pdf",
+          "storedName": "EWaste_EPR_Calculator_Report.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 5064
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-08",
-      "portalTitle": "TE CMPN C PPT_State tracker submission Folder",
-      "displayTitle": "State Tracker — Presentation",
+      "id": "KV-06",
+      "portalTitle": "E Waste Simple Task",
+      "displayTitle": "E-Waste Simple Task",
       "portalActivityDate": "2026-08-12",
-      "category": "Data Analytics & Tracking",
+      "category": "Research, Policy & Sustainability",
       "dueDate": null,
       "portalBadgeObserved": true,
       "portalBadgeText": "Turned in",
@@ -150,34 +157,24 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-06-F1",
+          "originalName": "E-Waste_Simple_Task.md.pdf",
+          "storedName": "E-Waste_Simple_Task.md.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 169244
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-09",
-      "portalTitle": "E Waste Recovery Process_Modification for Design Patent",
-      "displayTitle": "E-Waste Recovery — Design Patent Modification",
+      "id": "KV-07",
+      "portalTitle": "Africa E-Waste Paradox Presentation",
+      "displayTitle": "Africa's E-Waste Paradox — Presentation",
       "portalActivityDate": "2026-08-19",
-      "category": "Technical & Recovery Processes",
-      "dueDate": null,
-      "portalBadgeObserved": true,
-      "portalBadgeText": "Turned in",
-      "actualSubmissionStatus": "unverified",
-      "workStatus": "not_reviewed",
-      "qualityStatus": "not_assessed",
-      "grade": null,
-      "published": false,
-      "tasks": [],
-      "files": [],
-      "sources": [],
-      "notes": ""
-    },
-    {
-      "id": "EW-10",
-      "portalTitle": "Indian Companies Following E waste Rules_Comparative Study",
-      "displayTitle": "Indian E-Waste Rules — Company Comparison",
-      "portalActivityDate": "2026-09-02",
       "category": "Research, Policy & Sustainability",
       "dueDate": null,
       "portalBadgeObserved": true,
@@ -190,12 +187,12 @@
       "tasks": [],
       "files": [],
       "sources": [],
-      "notes": ""
+      "notes": "File (Africa_s_E-Waste_Paradox.pptx, 19MB) excluded from repository due to GitHub file size limits. Available locally in ewem/ folder."
     },
     {
-      "id": "EW-11",
-      "portalTitle": "Novel Idea_E waste_Pitch Deck Submit Folder_CMPN C",
-      "displayTitle": "Novel E-Waste Idea — Pitch Deck",
+      "id": "KV-08",
+      "portalTitle": "ShareKart Presentation",
+      "displayTitle": "ShareKart Presentation",
       "portalActivityDate": "2026-09-06",
       "category": "Innovation & Awareness",
       "dueDate": null,
@@ -207,14 +204,23 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-08-F1",
+          "originalName": "ShareKart Presentation 1.pdf",
+          "storedName": "ShareKart_Presentation_1.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 1038484
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-12",
-      "portalTitle": "Campaign For E Waste in Campus_Class Activity",
-      "displayTitle": "Campus E-Waste Awareness Campaign",
+      "id": "KV-09",
+      "portalTitle": "PCB Poster_Campus E-Waste Campaign",
+      "displayTitle": "PCB Poster — E-Waste Campus Awareness",
       "portalActivityDate": "2026-09-09",
       "category": "Innovation & Awareness",
       "dueDate": null,
@@ -226,16 +232,25 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-09-F1",
+          "originalName": "pcb_poster.html",
+          "storedName": "pcb_poster.html",
+          "mimeType": "text/html",
+          "ext": "html",
+          "sizeBytes": 9600
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-13",
-      "portalTitle": "LEED Certification of Green Buildings in India",
-      "displayTitle": "LEED-Certified Buildings in India",
-      "portalActivityDate": "2026-09-29",
-      "category": "Research, Policy & Sustainability",
+      "id": "KV-10",
+      "portalTitle": "PCB Quiz_Interactive Activity",
+      "displayTitle": "PCB Quiz — Interactive E-Waste Quiz",
+      "portalActivityDate": "2026-09-09",
+      "category": "Innovation & Awareness",
       "dueDate": null,
       "portalBadgeObserved": true,
       "portalBadgeText": "Turned in",
@@ -245,14 +260,23 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-10-F1",
+          "originalName": "pcb_quiz.html",
+          "storedName": "pcb_quiz.html",
+          "mimeType": "text/html",
+          "ext": "html",
+          "sizeBytes": 10686
+        }
+      ],
       "sources": [],
       "notes": ""
     },
     {
-      "id": "EW-14",
+      "id": "KV-11",
       "portalTitle": "Case Studies E waste",
-      "displayTitle": "E-Waste Case Studies",
+      "displayTitle": "E-Waste Case Study Reports",
       "portalActivityDate": "2026-10-04",
       "category": "Research, Policy & Sustainability",
       "dueDate": null,
@@ -264,7 +288,72 @@
       "grade": null,
       "published": false,
       "tasks": [],
-      "files": [],
+      "files": [
+        {
+          "fileId": "KV-11-F1",
+          "originalName": "EWaste_Case_Study_Reports24102C0036.pdf",
+          "storedName": "EWaste_Case_Study_Reports24102C0036.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 319579
+        }
+      ],
+      "sources": [],
+      "notes": ""
+    },
+    {
+      "id": "KV-12",
+      "portalTitle": "E Waste Assignment General",
+      "displayTitle": "E-Waste General Assignment",
+      "portalActivityDate": "2026-10-04",
+      "category": "Research, Policy & Sustainability",
+      "dueDate": null,
+      "portalBadgeObserved": true,
+      "portalBadgeText": "Turned in",
+      "actualSubmissionStatus": "unverified",
+      "workStatus": "not_reviewed",
+      "qualityStatus": "not_assessed",
+      "grade": null,
+      "published": false,
+      "tasks": [],
+      "files": [
+        {
+          "fileId": "KV-12-F1",
+          "originalName": "Kavish_Khan_24102C0036_Ewaste_Assignment.pdf",
+          "storedName": "Kavish_Khan_24102C0036_Ewaste_Assignment.pdf",
+          "mimeType": "application/pdf",
+          "ext": "pdf",
+          "sizeBytes": 10625
+        }
+      ],
+      "sources": [],
+      "notes": ""
+    },
+    {
+      "id": "KV-13",
+      "portalTitle": "Research Paper Submission",
+      "displayTitle": "Research Paper — Kavish Khan",
+      "portalActivityDate": "2026-10-07",
+      "category": "Academic Research",
+      "dueDate": null,
+      "portalBadgeObserved": true,
+      "portalBadgeText": "Turned in",
+      "actualSubmissionStatus": "unverified",
+      "workStatus": "not_reviewed",
+      "qualityStatus": "not_assessed",
+      "grade": null,
+      "published": false,
+      "tasks": [],
+      "files": [
+        {
+          "fileId": "KV-13-F1",
+          "originalName": "paper.docx",
+          "storedName": "kavish_research_paper.docx",
+          "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "ext": "docx",
+          "sizeBytes": 22036
+        }
+      ],
       "sources": [],
       "notes": ""
     }

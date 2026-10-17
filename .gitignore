@@ -12,3 +12,5 @@ build/
 coverage/
 playwright-report/
 test-results/
+# Large presentation files (excluded due to GitHub file size limits)
+*.pptx

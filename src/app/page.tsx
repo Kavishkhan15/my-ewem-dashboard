@@ -40,7 +40,7 @@ export default function HomePage() {
 
   // Featured Coursework Deliverables
   const featuredAssignments = assignments.filter((a) =>
-    ['EW-05', 'EW-10', 'EW-14'].includes(a.id)
+    ['KV-02', 'KV-11', 'KV-13'].includes(a.id)
   );
 
   return (
@@ -51,7 +51,7 @@ export default function HomePage() {
         <div className="lg:col-span-8 space-y-8 pr-0 lg:pr-6">
           <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded bg-surface border border-border text-xs font-mono text-emerald-accent uppercase tracking-tech">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
-            <span>EW/EM Academic Portfolio &bull; 2026 Archive</span>
+            <span>EWEM Dashboard &bull; Kavish Khan &bull; 24102C0036</span>
           </div>
 
           <div className="space-y-4">
@@ -68,7 +68,7 @@ export default function HomePage() {
             <span className="w-2 h-2 rounded-full bg-emerald-accent mt-1.5 shrink-0" aria-hidden="true" />
             <div className="space-y-1">
               <div className="text-sm font-semibold text-text font-display tracking-tight">
-                Prepared for Prof. Aniket Kundu
+                Kavish Khan &mdash; Roll No. 24102C0036
               </div>
               <div className="text-xs font-mono text-text-muted">
                 E-Waste &amp; Environmental Management &middot; Semester 5
@@ -77,7 +77,7 @@ export default function HomePage() {
           </div>
 
           <p className="text-base text-text-muted leading-relaxed font-sans max-w-2xl">
-            A viewer-only academic repository curating coursework deliverables across electronics circularity, elemental recovery, compliance analytics, and institutional audits. Every deliverable is preserved in its authentic student format with interactive document inspection and cryptographic hash fidelity.
+            Personal academic dashboard for Kavish Khan (24102C0036) curating 13 EWEM coursework deliverables across electronics circularity, elemental recovery, compliance analytics, and institutional audits. Files are preserved in their authentic student format with interactive document inspection.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -144,7 +144,7 @@ export default function HomePage() {
               </div>
               <p className="text-xs text-text-muted">
                 {assignmentsAwaitingFiles === 0
-                  ? 'All 15 deliverables ingested and verified'
+                  ? 'All 13 deliverables ingested and verified'
                   : `${assignmentsAwaitingFiles} deliverable awaiting source file`}
               </p>
             </div>

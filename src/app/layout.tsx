@@ -4,21 +4,21 @@ import { AppShell } from '@/components/shell/AppShell';
 import '../styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'E-Waste | Academic Portfolio',
+  title: 'EWEM Dashboard | Kavish Khan',
   description:
-    'Academic coursework portfolio for 15 EW/EM assignments with interactive document inspection and verified deliverables.',
+    'Personal EWEM assignment dashboard for Kavish Khan (24102C0036) — 13 E-Waste & Environmental Management coursework deliverables.',
   openGraph: {
-    title: 'E-Waste | Academic Portfolio',
+    title: 'EWEM Dashboard | Kavish Khan',
     description:
-      'Academic coursework portfolio for 15 EW/EM assignments with interactive document inspection and verified deliverables.',
-    siteName: 'E-Waste Academic Portfolio',
+      'Personal EWEM assignment dashboard for Kavish Khan (24102C0036) — 13 E-Waste & Environmental Management coursework deliverables.',
+    siteName: 'EWEM Dashboard — Kavish Khan',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'E-Waste | Academic Portfolio',
+    title: 'EWEM Dashboard | Kavish Khan',
     description:
-      'Academic coursework portfolio for 15 EW/EM assignments with interactive document inspection and verified deliverables.',
+      'Personal EWEM assignment dashboard for Kavish Khan (24102C0036) — 13 E-Waste & Environmental Management coursework deliverables.',
   },
   icons: {
     icon: [
